@@ -2,6 +2,8 @@ import pyttsx3 #!pip install pyttsx3
 import speech_recognition as sr
 import datetime
 import time
+import webbrowser
+import pyautogui #!pip install pyautogui
 
 def initialize_engine():
     engine = pyttsx3.init("sapi5")
@@ -32,7 +34,7 @@ def command():
         r.dynamic_energy_adjustment=2
         r.energy_threshold = 4000
         r.pause_time_limit = 10
-        # print(sr.Microphone.list_microphone_names()) 
+        print(sr.Microphone.list_microphone_names()) 
         audio = r.listen(source)
         
     try:
@@ -46,6 +48,8 @@ def command():
         return "None"
     return query
 
+
+
 def cal_day():
     day = datetime.datetime.today().weekday() + 1
     day_dict = {1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday', 7: 'Sunday'}
@@ -54,34 +58,107 @@ def cal_day():
         print(day_of_the_week)
     return day_of_the_week
 
+
+
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     t = time.strftime("%I:%M:%p")
     day = cal_day()
     if (hour>=0) and (hour<12) and ("AM" in t):
-        speak("Good Morning! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Morning! Rushabh, it's {day} and the time is {t}")
     elif (hour>=12) and (hour<18) and ("PM" in t):
-        speak("Good Afternoon! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Afternoon! Rushabh, it's {day} and the time is {t}")
     else:
-        speak("Good Evening! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Evening! Rushabh, it's {day} and the time is {t}")
 
-    speak("I am your edit. Please tell me how may I help you") 
+    # speak("I am your edit. Please tell me how may I help you") 
 
-if __name__ == "__main__":  
+
+
+def social_media(command):
+    if "facebook" in command:
+        speak("Opening Facebook")
+        webbrowser.open("facebook.com")
+    elif "whatsapp" in command:
+        speak("Opening Whatsapp")
+        webbrowser.open("web.whatsapp.com")
+    elif "instagram" in command:
+        speak("Opening Instagram")
+        webbrowser.open("instagram.com")
+    elif "youtube" in command:
+        speak("Opening Youtube")
+        webbrowser.open("youtube.com")
+
+
+
+def schedule():
+    day = cal_day().lower()
+    speak(f"Opening the schedule for {day}")
+    webbrowser.open("schedule.txt")
+
+def openApp(command):
+    if "calculator" in command:
+        speak("Opening Calculator")
+        pyautogui.press("win")
+        pyautogui.write("calculator")
+        pyautogui.press("enter")
+    elif "paint" in command:
+        speak("Opening Paint")
+        pyautogui.press("win")
+        pyautogui.write("paint")
+        pyautogui.press("enter")
+    elif "notepad" in command:
+        speak("Opening Notepad")
+        pyautogui.press("win")
+        pyautogui.write("notepad")
+        pyautogui.press("enter")
+    # elif "setting" in command:
+    #     speak("Opening Setting")
+    #     pyautogui.press("win")
+    #     pyautogui.write("settings")
+    #     pyautogui.press("enter") 
+
+
+
+
+
+if __name__ == "__main__": 
+
+    #----------------- Uncomment the below line for wishing the user
+    wishMe() 
     while True:
-        wishMe()
+       
+        
         # query = command().lower()
-        query = command().lower()
-        # query = input("Enter your command: ")
+        query = input("Enter your command: ")
+        if ("facebook" in query) or ("whatsapp" in query) or ("instagram" in query) or ("youtube" in query):
+            social_media(query)
+        elif ("Daily study Schedule" in query) or ("study" in query):
+            schedule()
+        elif ("volume up" in query) or ("increase volume" in query):
+            pyautogui.press("volumeup")
+            speak("Volume increased")
+        elif ("volume down" in query) or ("decrease volume" in query):
+            pyautogui.press("volumedown")
+            speak("Volume decreased")
+        elif ("volume mute" in query) or ("mute the sound" in query):
+            pyautogui.press("volumemute")
+            speak("Volume muted")
+        elif ("play" in query):
+            pyautogui.press("playpause")
+
+        elif ("open calculator" in query) or ("open paint" in query) or ("open notepad" in query) #or ("open setting" in query):
+            openApp(query)
+           
+
 
 
         if "exit" in query:
             speak("Goodbye")
             break
-        else:
-            speak("I am listening...")  
-        print(query)
-
+        # else:
+            # speak("I am listening...")  
+        # print(query)
 
 
 # speak("Hello, I am your edit. How can I help you?")

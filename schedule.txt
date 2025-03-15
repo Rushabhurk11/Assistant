@@ -1,0 +1,37 @@
+**Rushabh's Silent Hustle Routine 5.0**
+
+| Time | Task | Notes |
+|------|------|-------|
+| **5:00 - 5:15 AM** | Meditation & Affirmations | Gratitude + Goal Visualization |
+| **5:15 - 7:30 AM** | Gym & Fitness | Full Body Workout + Cardio |
+| **7:30 - 8:00 AM** | Refresh & Mindset Boost | Cold Shower + Motivational Podcast |
+| **8:00 - 10:00 AM** | News & Reading | Tech News + Current Affairs + MBA GK |
+| **10:00 - 11:00 AM** | Lunch & Short Break | Relax + Light Meal |
+| **11:00 - 1:30 PM** | Tech Study | Python, SQL, Power BI, DSA - Focused Learning |
+| **1:30 - 3:30 PM** | Power Nap | Improves Memory & Focus |
+| **3:30 - 4:00 PM** | Snacks & Refresh | Light Snacks + Short Walk |
+| **4:00 - 6:00 PM** | Side Projects | Web/AI - Build & Experiment |
+| **6:00 - 7:00 PM** | MBA Study | Aptitude + Vocabulary - 5 Words + Revision |
+| **7:00 - 8:00 PM** | Book Reading | Business & Self-Growth - Atomic Habits / Rich Dad Poor Dad |
+| **8:00 - 9:00 PM** | Dinner & Refresh | Light Meal + YouTube Tech Videos |
+| **9:00 - 10:30 PM** | Coding Practice | Leetcode, HackerRank - 1-2 DSA Problems |
+| **10:30 - 12:00 AM** | Online Linux (CentOS) Class + Practice | System Admin + Shell Scripting |
+| **11:30 - 12:00 AM** | Tomorrow Planning + Google Sheets Update | Journal + Track Progress |
+
+**🔥 Weekly Additions**
+
+| Day | Task |
+|------|------|
+| **Saturday** | Weekly Review + Tech Quiz + Vocabulary Test |
+| **Sunday** | Full Mock Test (Aptitude + GK + Coding + MBA) |
+
+**🚀 Special Additions**
+✅ Linux Practice Tracker (Daily Tasks in Google Sheets)
+✅ Leetcode & MBA Prep Auto-Tracker
+✅ Weekly Challenges (Linux, DSA, Vocabulary)
+
+**🔥 Final Notes**
+👉 "Consistency > Motivation" - Stick to the Plan  
+👉 "Track Progress Daily" - Google Sheets for Self-Improvement  
+👉 "Hustle Silently, Succeed Loudly"
+
