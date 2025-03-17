@@ -18,6 +18,7 @@ def initialize_engine():
     engine.setProperty('volume', volume+0.25)  # Increases volume slightly
     return engine
 
+
 def speak(text):
     """
     Converts the given text to speech.
@@ -25,6 +26,10 @@ def speak(text):
     engine = initialize_engine()
     engine.say(text)
     engine.runAndWait()
+
+
+
+
 
 def command():
     """
@@ -61,6 +66,9 @@ def command():
         return "None"
     return query
 
+
+
+
 def cal_day():
     """
     Calculates and prints the current day of the week.
@@ -73,6 +81,9 @@ def cal_day():
         print(day_of_the_week)  # Print the day
     return day_of_the_week
 
+
+
+
 def wishMe():
     """
     Greets the user based on the current time of the day.
@@ -81,24 +92,27 @@ def wishMe():
     t = time.strftime("%I:%M %p")
     day = cal_day()
     if (hour>=0) and (hour<12) and ("AM" in t):
-        speak(f"Good Morning! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Morning! Rushabh, its {day} and the time is {t}")
     elif (hour>=12) and (hour<18) and ("PM" in t):
-        speak(f"Good Afternoon! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Afternoon! Rushabh, its {day} and the time is {t}")
     else:
-        speak(f"Good Evening! Rushabh, it's {day} and the time is {t}")
+        speak(f"Good Evening! Rushabh, its {day} and the time is {t}")
 
 
 
 
-def social_media(command):
+def Web(command):
     """
     Opens social media websites based on the command.
     """
     platforms = {
-        "facebook": "facebook.com",
-        "whatsapp": "web.whatsapp.com",
-        "instagram": "instagram.com",
-        "youtube": "youtube.com"
+        # "facebook": "facebook.com",
+        # # "whatsapp": "web.whatsapp.com",
+        # "instagram": "instagram.com",
+        # "youtube": "youtube.com"
+        "Google": "https://www.google.com/",
+        "LinkedIn": "https://www.linkedin.com/",
+        "Github": "Github.com"
     }
     for key, url in platforms.items():
         if key in command:
@@ -106,13 +120,19 @@ def social_media(command):
             webbrowser.open(url)
             break
 
+
+
+
 def schedule():
     """
     Opens the daily study schedule.
     """
     day = cal_day().lower()
-    speak(f"Opening the schedule for {day}")
+    speak(f"Opening Rushabh's Silent Hustle for {day}")
     webbrowser.open("schedule.txt")
+
+
+
 
 def openApp(command):
     """
@@ -121,7 +141,11 @@ def openApp(command):
     apps = {
         "calculator": "calculator",
         "paint": "paint",
-        "notepad": "notepad"
+        "notepad": "notepad",
+        "whatsapp": "whatsapp",
+        "instagram": "instagram",
+        "youtube": "youtube",
+        "facebook": "facebook"
     }
     for key, app in apps.items():
         if key in command:
@@ -131,20 +155,42 @@ def openApp(command):
             pyautogui.press("enter")
             break
 
+
+def closeApp(command):
+    """
+    Closes common Windows applications based on the command.
+    """
+    apps = {
+        "calculator": "calculator",
+        "paint": "paint",
+        "notepad": "notepad",
+        "whatsapp": "whatsapp",
+        "instagram": "instagram",
+        "youtube": "youtube",
+        "facebook": "facebook"
+
+    }
+    for key, app in apps.items():
+        if key in command:
+            speak(f"Closing {key}")
+            pyautogui.hotkey("alt", "f4")
+            break
+
+
 if __name__ == "__main__": 
     wishMe()  # Greet the user
     while True:
-              # query = command().lower()
-        query = input("Enter your command: ")
-        if ("facebook" in query) or ("whatsapp" in query) or ("instagram" in query) or ("youtube" in query):
-            social_media(query)
-        elif ("Daily study Schedule" in query) or ("study" in query):
+        query = command().lower()
+        # query = input("Enter your command: ")
+        if ("Google" in query) or ("linkedin" in query) or ("GitHub" in query) :
+            Web(query)
+        elif ("Daily study Schedule" in query) or ("study" in query) or ("schedule" in query):
             schedule()
         elif ("volume up" in query) or ("increase volume" in query):
             pyautogui.press("volumeup")
             speak("Volume increased")
         elif ("volume down" in query) or ("decrease volume" in query):
-            pyautogui.press("volumedown")
+            pyautogui.press("volumedown")   
             speak("Volume decreased")
         elif ("volume mute" in query) or ("mute the sound" in query):
             pyautogui.press("volumemute")
@@ -152,15 +198,18 @@ if __name__ == "__main__":
         elif ("play" in query):
             pyautogui.press("playpause")
 
-        elif ("open calculator" in query) or ("open paint" in query) or ("open notepad" in query):
+        elif ("open calculator" in query) or ("open paint" in query) or ("open notepad" in query) or ("open whatsapp" in query) or ("open instagram" in query) or ("open youtube" in query) or ("open facebook" in query):
             openApp(query)
+        elif ("close calculator" in query) or ("close paint" in query) or ("close notepad" in query) or ("close whatsapp" in query) or ("close instagram" in query) or ("close youtube" in query) or ("close facebook" in query):
+            closeApp(query)
            
 
 
 
-        if "exit" in query:
-            speak("Goodbye")
-            break
+
+        # if "exit" in query:
+        #     speak("Goodbye")
+        #     break
         # else:
             # speak("I am listening...")  
         # print(query)
