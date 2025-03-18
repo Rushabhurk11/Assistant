@@ -4,6 +4,28 @@ import datetime  # To handle date and time
 import time  # Time-related functions
 import webbrowser  # To open web pages
 import pyautogui  # For GUI automation like pressing keys
+# import pyaudio
+import sys  # System-specific parameters and functions
+import json
+import pickle
+import tensorflow as tf
+from pyexpat import model
+from tensorflow import keras
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+import random
+import numpy as np
+
+
+with open("intents.json") as file:
+    data = json.load(file)
+
+model = keras.models.load_model("chat_model.h5")
+
+with open("tokenizer.pkl", "rb") as f:
+    Tokenizer = pickle.load(f)
+
+with open("label_encoder.pkl", "rb") as encoder_file:
+    label_encoder = pickle.load(encoder_file)
 
 def initialize_engine():
     """
@@ -34,12 +56,13 @@ def speak(text):
 def command():
     """
     Listens to the user's voice command and converts it into text using Google's speech recognition API.
+    
     """
     r = sr.Recognizer()  # Initialize the recognizer
     
     # Setting up the microphone for listening
-    with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, duration=0.5)  # Adjusts for ambient noise
+    with sr.Microphone(device_index=2) as source:
+        r.adjust_for_ambient_noise(source, duration=0.1)  # Adjusts for ambient noise
         print("Listening...")
         r.pause_threshold = 1.0  # Time to wait before considering speech as ended
         r.phrase_threshold = 0.3  # Minimum length of a phrase for it to be recognized
@@ -176,13 +199,19 @@ def closeApp(command):
             pyautogui.hotkey("alt", "f4")
             break
 
+def browsing(query):
+    if 'google' in query:
+        speak("Ok Boss, what should i search for you?")
+        search = command()
+        webbrowser.open(f"{search}")
+        # speak(f"Here is what i found for {search}")
 
 if __name__ == "__main__": 
     wishMe()  # Greet the user
     while True:
         query = command().lower()
         # query = input("Enter your command: ")
-        if ("Google" in query) or ("linkedin" in query) or ("GitHub" in query) :
+        if ("linkedin" in query) or ("GitHub" in query) :
             Web(query)
         elif ("Daily study Schedule" in query) or ("study" in query) or ("schedule" in query):
             schedule()
@@ -202,6 +231,21 @@ if __name__ == "__main__":
             openApp(query)
         elif ("close calculator" in query) or ("close paint" in query) or ("close notepad" in query) or ("close whatsapp" in query) or ("close instagram" in query) or ("close youtube" in query) or ("close facebook" in query):
             closeApp(query)
+
+        elif ("what" in query) or ("who" in query) or ("hi" in query) or ("hello" in query) or ("thanks" in query) or ("how" in query):
+            padded_sequences = pad_sequences(Tokenizer.texts_to_sequences([query]), truncating='post', maxlen=20)
+            result = model.predict(padded_sequences)
+            tag = label_encoder.inverse_transform([np.argmax(result)])
+
+            for i in data["intents"]:
+                if i["tag"] == tag:
+                    speak(np.random.choice(i["responses"]))
+                    print(np.random.choice(i["responses"]))
+                    
+        elif("open google" in query):
+            browsing(query)
+        elif ("exit" in query):
+            sys.exit()
            
 
 
