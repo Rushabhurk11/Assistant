@@ -27,5 +27,5 @@ while True:
 
     for i in data["intents"]:
         if i["tag"] == tag:
-            print(random.choice(i["responses"]))
-            break
+            print(np.random.choice(i["responses"]))
+            # break

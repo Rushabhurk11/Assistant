@@ -5,6 +5,8 @@ import time  # Time-related functions
 import webbrowser  # To open web pages
 import pyautogui  # For GUI automation like pressing keys
 # import pyaudio
+import psutil  # For system monitoring
+import psutils  # For system monitoring
 import sys  # System-specific parameters and functions
 import json
 import pickle
@@ -61,8 +63,9 @@ def command():
     r = sr.Recognizer()  # Initialize the recognizer
     
     # Setting up the microphone for listening
-    with sr.Microphone(device_index=2) as source:
-        r.adjust_for_ambient_noise(source, duration=0.1)  # Adjusts for ambient noise
+    
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source, duration=0.5)  # Adjusts for ambient noise
         print("Listening...")
         r.pause_threshold = 1.0  # Time to wait before considering speech as ended
         r.phrase_threshold = 0.3  # Minimum length of a phrase for it to be recognized
@@ -179,6 +182,7 @@ def openApp(command):
             break
 
 
+
 def closeApp(command):
     """
     Closes common Windows applications based on the command.
@@ -199,16 +203,39 @@ def closeApp(command):
             pyautogui.hotkey("alt", "f4")
             break
 
+
+
+
 def browsing(query):
     if 'google' in query:
         speak("Ok Boss, what should i search for you?")
+        """this is for speech command """
         search = command()
+        # search = input("Enter your search: ")
         webbrowser.open(f"{search}")
-        # speak(f"Here is what i found for {search}")
+        speak(f"Here is what i found for {search}")
+
+
+
+
+def condition():
+    usage = str(psutil.cpu_percent())
+    speak(f"CPU is at {usage} percentage")
+    battery = psutil.sensors_battery()
+    speak(f"and Battery is at {battery.percent} percentage battery")
+
+    if battery.percent < 40:
+        speak("Please connect the charger, Battery is low")
+    elif battery.percent > 80:
+        speak("Please remove the charger, Battery is charged")
+
+
+
 
 if __name__ == "__main__": 
     wishMe()  # Greet the user
     while True:
+        """this is for speech command """
         query = command().lower()
         # query = input("Enter your command: ")
         if ("linkedin" in query) or ("GitHub" in query) :
@@ -232,7 +259,7 @@ if __name__ == "__main__":
         elif ("close calculator" in query) or ("close paint" in query) or ("close notepad" in query) or ("close whatsapp" in query) or ("close instagram" in query) or ("close youtube" in query) or ("close facebook" in query):
             closeApp(query)
 
-        elif ("what" in query) or ("who" in query) or ("hi" in query) or ("hello" in query) or ("thanks" in query) or ("how" in query):
+        elif ("what" in query) or ("who" in query) or ("hi" in query) or ("hello" in query) or ("thanks" in query) or ("how" in query) or ("jokes" in query) or ("goodbye" in query) or ("whatsup" in query):
             padded_sequences = pad_sequences(Tokenizer.texts_to_sequences([query]), truncating='post', maxlen=20)
             result = model.predict(padded_sequences)
             tag = label_encoder.inverse_transform([np.argmax(result)])
@@ -244,6 +271,10 @@ if __name__ == "__main__":
                     
         elif("open google" in query):
             browsing(query)
+        elif("system condition" in query) or ("system" in query) or ("condition" in query):
+            speak("Checking the system condition")
+            # pyautogui.hotkey("ctrl", "shift", "esc")
+            condition()
         elif ("exit" in query):
             sys.exit()
            
